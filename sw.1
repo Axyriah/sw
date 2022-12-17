@@ -1,0 +1,9 @@
+.TH SW 1 sw\-VERSION
+.SH NAME
+sw - wm-agnostic window swalling tool
+.SH SYNOPSIS
+.B sw
+.RB [ command ]
+.SH DESCRIPTION
+sw is a window swalling tool. Since it is window manager-agnostic,
+it means it can be used with any window manager or desktop environment. It is based on modern C APIs for X.org like XCB, and the usage is passing a wrapped shell command as an argument. The explanation of how this works is pretty straightforward: this simply unmap and maps again the focused window until the command finishes running.

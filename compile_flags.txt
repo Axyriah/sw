@@ -1,0 +1,8 @@
+-Wall
+-Wextra 
+-Wno-deprecated-declarations 
+-g 
+-std=c99 
+-pedantic 
+-Os 
+-I/usr/local/include
