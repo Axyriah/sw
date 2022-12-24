@@ -84,9 +84,9 @@ Client *on_x_map(Client *client, xcb_connection_t *connection,
   c->pid = pid;
   c->window = window;
   c->is_swallowing = false;
+  c->pid = pid;
   if (client) {
     c->next = client;
-    client->is_swallowing = false;
   }
   swallow(c, connection);
   return c;
