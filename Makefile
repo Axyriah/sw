@@ -4,15 +4,16 @@
 include config.mk
 
 # All needed source files
-SRC = sw.c
+SRC = platform.c sw.c
+INCL = config.h platform.h
 OBJ = ${SRC:.c=.o}
 
 # All compilation rules
 all: options sw
 sw: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
-%.o: %.c
-	${CC} ${CFLAGS} -c $< -o $@
+%.o: %.c ${INCL}
+	${CC} -c ${CFLAGS} $< -o $@
 clean:
 	rm -f sw ${OBJ} sw.core sw-${VERSION}.tar.gz
 dist: clean

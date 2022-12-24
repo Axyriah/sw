@@ -10,10 +10,10 @@ WM-agnostic window swalling tool using xcb.
 
 ## Installation
 
-On Linux and NetBSD, you need to uncomment two OS-specific lines in config.mk before
-compiling this.
+On Linux, OpenBSD, and NetBSD, you need to uncomment two OS-specific lines in config.mk
+before compiling this.
 
-FreeBSD and OpenBSD does not need any changes.
+FreeBSD does not need any changes.
 
 ```sh
 $ git clone https://code.axyria.dev/sw.git && cd sw

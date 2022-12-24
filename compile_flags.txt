@@ -4,5 +4,6 @@
 -g 
 -std=c99 
 -pedantic 
--Os 
+-Os
+-Iplatform.h -Iconfig.h
 -I/usr/local/include

@@ -9,7 +9,12 @@ MANPREFIX = ${PREFIX}/share/man
 
 # FreeBSD and OpenBSD
 INCS = -I/usr/local/include
-LIBS = -L/usr/local/lib -lxcb
+
+# FreeBSD
+LIBS = -L/usr/local/lib -lxcb -lutil
+
+# OpenBSD (uncomment)
+# LIBS = -L/usr/local/lib -lxcb -lkvm
 
 # NetBSD (uncomment)
 # INCS = -I/usr/pkg/include
@@ -17,7 +22,7 @@ LIBS = -L/usr/local/lib -lxcb
 
 # Linux (uncomment)
 # INCS = -I/usr/X11R6/include
-# LIBS = -L/usr/X11R6/lib
+# LIBS = -L/usr/X11R6/lib -lxcb -lxcb-res
 
 # end
 
