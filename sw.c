@@ -31,7 +31,7 @@ char *get_window_class(xcb_connection_t *connection, xcb_window_t window) {
   return class;
 }
 
-Client *find_parent_by_pid(Client *client, pid_t pid) {
+Client *find_client_by_pid(Client *client, pid_t pid) {
   for (Client *c = client; c; c = c->next) {
     if (c->pid == pid - 1) {
       return c;
@@ -41,19 +41,17 @@ Client *find_parent_by_pid(Client *client, pid_t pid) {
 }
 
 void swallow(Client *client, xcb_connection_t *connection) {
-  pid_t parent = find_parent_pid(client->pid);
-  Client *pr = client->parent;
-  if (pr == NULL) {
-    pr = find_parent_by_pid(client, parent);
-  }
-  if (pr != NULL && !pr->is_swallowing) {
-    char *class = get_window_class(connection, pr->window);
-    for (unsigned long i = 0; i < sizeof(classes) / sizeof(classes[0]); i++) {
-      if (strcmp(class, classes[i]) == 0) {
+  Client *pr = client;
+  for (unsigned long i = 0; i < sizeof(classes) / sizeof(classes[0]); i++) {
+    pid_t parent_pid = client->pid;
+    while ((parent_pid = find_parent_pid(parent_pid)) != 0) {
+      if ((pr = find_client_by_pid(client, parent_pid)) != NULL &&
+          strcmp(get_window_class(connection, pr->window), classes[i]) == 0) {
         pr->is_swallowing = true;
         client->parent = pr;
         xcb_unmap_window(connection, pr->window);
         xcb_flush(connection);
+        break;
       }
     }
   }
@@ -63,10 +61,13 @@ void unswallow(Client *client, xcb_connection_t *connection) {
   if (!client) {
     return;
   }
-  pid_t parent = find_parent_pid(client->pid);
   Client *pr = client->parent;
   if (pr == NULL) {
-    pr = find_parent_by_pid(client, parent);
+    pid_t parent = find_parent_pid(client->pid);
+    if (parent == 0) {
+      return;
+    }
+    pr = find_client_by_pid(client, parent);
   }
   if (pr != NULL && pr->is_swallowing) {
     pr->is_swallowing = false;
@@ -81,7 +82,6 @@ Client *on_x_map(Client *client, xcb_connection_t *connection,
   xcb_window_t window = event->window;
   pid_t pid = find_window_pid(connection, window);
   Client *c = malloc(sizeof(Client));
-  c->pid = pid;
   c->window = window;
   c->is_swallowing = false;
   c->pid = pid;
