@@ -1,5 +1,5 @@
 # software version
-VERSION = 0.1
+VERSION = 1.0
 
 # installation prefix
 PREFIX = /usr/local
@@ -27,7 +27,7 @@ LIBS = -L/usr/local/lib -lxcb -lutil
 # end
 
 # compiler flags
-CFLAGS = -Wall -Wextra -Wno-deprecated-declarations -g -pedantic -Os ${INCS}
+CFLAGS = -Wall -Wextra -Wno-deprecated-declarations -g -pedantic -Os ${INCS} -DVERSION=\"${VERSION}\"
 LDFLAGS = ${LIBS}
 
 # compiler and linker

@@ -5,5 +5,6 @@
 -std=c99 
 -pedantic 
 -Os
+-DVERSION=""
 -Iplatform.h -Iconfig.h
 -I/usr/local/include

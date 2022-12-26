@@ -112,7 +112,15 @@ Client *on_x_destroy(Client *client, xcb_connection_t *connection,
   return client;
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
+  if (argc == 2 && strcmp(argv[1], "-v") == 0) {
+    printf("sw %s\n", VERSION);
+    return 0;
+  } else if (argc != 1) {
+    printf("usage: sw [-v]\n");
+    return -1;
+  }
+
   xcb_connection_t *connection = xcb_connect(NULL, NULL);
   if (xcb_connection_has_error(connection)) {
     printf("ERROR: Failed to connect to X server.\n");
