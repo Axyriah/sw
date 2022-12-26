@@ -1,13 +1,15 @@
 # sw
 
-WM-agnostic window swalling tool using xcb.
+Automatic window hiding daemon/supervisor for X11. It works by listening to X11 remap
+and destroy events and comparing the PID of parent windows to decide if a window should
+be hidden or not until the child window is destroyed.
 
 ## Dependencies
 
 -   libxcb
--   libxcb-res (only if you are running Linux)
--   make
--   cc or any other compiler/linker
+-   make, cc or any other compiler/linker
+
+**You also need libxcb-res on Linux**
 
 ## Installation
 
@@ -25,8 +27,7 @@ Since this is a background process, you should add it to your startup script or 
 supervisor method. By default, only applications with the `st-256color` class name are
 going to be swallowed. You can change this by editing the `config.h` file.
 
-_Untested on Linux and OpenBSD. If you are using dwm on either of these, it may better to
-use the swallow patch._
+**Untested on Linux and OpenBSD. Please report any issues, if any are found.**
 
 ## Manual
 

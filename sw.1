@@ -1,9 +1,17 @@
 .TH SW 1 sw\-VERSION
 .SH NAME
-sw - wm-agnostic window swalling tool
+sw - Automatic window hiding daemon/supervisor for X11
 .SH SYNOPSIS
 .B sw
-.RB [ command ]
 .SH DESCRIPTION
-sw is a window swalling tool. Since it is window manager-agnostic,
-it means it can be used with any window manager or desktop environment. It is based on modern C APIs for X.org like XCB, and the usage is passing a wrapped shell command as an argument. The explanation of how this works is pretty straightforward: this simply unmap and maps again the focused window until the command finishes running.
+sw is an automatic window hiding daemon/supervisor for X11. It works by listening to 
+X11 remap and destroy events and comparing the PID of parent windows to decide if a 
+window should be hidden or not until the child window is destroyed. It depends on
+modern C libraries like XCB, and xcb-res on Linux.
+The code for sw is pretty straightforward: when a new window is mapped, it is stored
+as a client with its PID as information, then checked against its parent window's PID
+in order to guarantee that children with their respective parents that matches with 
+a certain criteria - a bunch of classes - have their parent window hidden. When the
+child window is destroyed, the parent window is restored.
+This also saves the parent window client as a structure field/information if it matches
+th criteria, since it may vary from time to time in some operating systems.
